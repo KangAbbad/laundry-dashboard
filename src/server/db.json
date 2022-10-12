@@ -1,0 +1,15 @@
+{
+  "admins": [
+    {
+      "username": "user01",
+      "email": "user01@email.com",
+      "phone": "087739999776",
+      "name": "user01",
+      "idCard": "3337128981264283",
+      "address": "solo",
+      "password": "password",
+      "id": 1
+    }
+  ],
+  "transactions": []
+}

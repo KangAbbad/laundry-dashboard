@@ -1,0 +1,214 @@
+<div class="container mx-auto">
+  <div class="flex flex-col items-center justify-center min-h-screen">
+    <div class="sm:w-[400px] p-5">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <p-card>
+          <ng-template pTemplate="header">
+            <div class="p-5 pb-0">
+              <h1 class="text-2xl">Sign Up</h1>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="field">
+              <div class="p-input-icon-left w-full">
+                <i class="pi pi-verified"></i>
+                <input
+                  formControlName="username"
+                  id="username"
+                  type="text"
+                  pInputText
+                  placeholder="Username"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      isSubmitted && registerForm.controls['username'].errors
+                  }"
+                  class="p-inputtext-sm w-full"
+                  aria-label="username" />
+              </div>
+              <small
+                *ngIf="isSubmitted && registerForm.controls['username'].errors"
+                id="username"
+                class="p-error block mt-2">
+                Username invalid!
+              </small>
+            </div>
+            <div class="field mt-4">
+              <div class="p-input-icon-left w-full">
+                <i class="pi pi-at"></i>
+                <input
+                  formControlName="email"
+                  id="email"
+                  type="email"
+                  pInputText
+                  placeholder="Email"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      isSubmitted && registerForm.controls['email'].errors
+                  }"
+                  class="p-inputtext-sm w-full"
+                  aria-label="email" />
+              </div>
+              <small
+                *ngIf="isSubmitted && registerForm.controls['email'].errors"
+                id="email"
+                class="p-error block mt-2">
+                Email invalid!
+              </small>
+            </div>
+            <div class="field mt-4">
+              <div class="p-input-icon-left w-full">
+                <i class="pi pi-phone"></i>
+                <input
+                  formControlName="phone"
+                  id="phone"
+                  type="text"
+                  pInputText
+                  placeholder="Phone"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      isSubmitted && registerForm.controls['phone'].errors
+                  }"
+                  class="p-inputtext-sm w-full"
+                  aria-label="phone" />
+              </div>
+              <small
+                *ngIf="isSubmitted && registerForm.controls['phone'].errors"
+                id="phone"
+                class="p-error block mt-2">
+                Phone invalid!
+              </small>
+            </div>
+            <div class="field mt-4">
+              <div class="p-input-icon-left w-full">
+                <i class="pi pi-user"></i>
+                <input
+                  formControlName="name"
+                  id="name"
+                  type="text"
+                  pInputText
+                  placeholder="Name"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      isSubmitted && registerForm.controls['name'].errors
+                  }"
+                  class="p-inputtext-sm w-full"
+                  aria-label="name" />
+              </div>
+              <small
+                *ngIf="isSubmitted && registerForm.controls['name'].errors"
+                id="name"
+                class="p-error block mt-2">
+                Name invalid!
+              </small>
+            </div>
+            <div class="field mt-4">
+              <div class="p-input-icon-left w-full">
+                <i class="pi pi-id-card"></i>
+                <input
+                  formControlName="idCard"
+                  id="idCard"
+                  type="text"
+                  pInputText
+                  placeholder="ID Card"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      isSubmitted && registerForm.controls['idCard'].errors
+                  }"
+                  class="p-inputtext-sm w-full"
+                  aria-label="idCard" />
+              </div>
+              <small
+                *ngIf="isSubmitted && registerForm.controls['idCard'].errors"
+                id="idCard"
+                class="p-error block mt-2">
+                ID Card invalid!
+              </small>
+            </div>
+            <div class="field mt-4">
+              <div class="p-input-icon-left w-full">
+                <i class="pi pi-home"></i>
+                <input
+                  formControlName="address"
+                  id="address"
+                  type="text"
+                  pInputText
+                  placeholder="Address"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      isSubmitted && registerForm.controls['address'].errors
+                  }"
+                  class="p-inputtext-sm w-full"
+                  aria-label="address" />
+              </div>
+              <small
+                *ngIf="isSubmitted && registerForm.controls['address'].errors"
+                id="address"
+                class="p-error block mt-2">
+                Address invalid!
+              </small>
+            </div>
+            <div class="field mt-4">
+              <div class="p-input-icon-left w-full">
+                <i class="pi pi-lock"></i>
+                <input
+                  formControlName="password"
+                  type="password"
+                  pInputText
+                  placeholder="Password"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      isSubmitted && registerForm.controls['password'].errors
+                  }"
+                  class="p-inputtext-sm w-full"
+                  aria-label="password" />
+              </div>
+              <small
+                *ngIf="isSubmitted && registerForm.controls['password'].errors"
+                id="password"
+                class="p-error block mt-2">
+                Password invalid!
+              </small>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <button
+              type="submit"
+              [disabled]="isLoading"
+              [ngClass]="{
+                'cursor-not-allowed bg-indigo-400': isLoading
+              }"
+              class="inline-flex items-center justify-center px-4 py-2 text-sm leading-6 text-white transition duration-150 ease-in-out bg-indigo-500 rounded-md shadow hover:bg-indigo-400 w-full">
+              <svg
+                *ngIf="isLoading"
+                class="w-5 h-5 mr-3 -ml-1 text-white animate-spin"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24">
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Submit
+            </button>
+            <p class="text-sm text-center mt-3">
+              Have an account?
+              <a
+                routerLink="/auth/login"
+                class="text-link text-indigo-500 underline">
+                Login
+              </a>
+            </p>
+          </ng-template>
+        </p-card>
+      </form>
+    </div>
+  </div>
+</div>

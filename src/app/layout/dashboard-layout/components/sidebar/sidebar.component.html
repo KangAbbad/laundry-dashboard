@@ -1,0 +1,31 @@
+<div class="bg-indigo-500 h-screen min-w-[250px]">
+  <div class="p-5 pb-0">
+    <a routerLink="/dashboard">
+      <h1 class="text-white text-center text-2xl font-semibold mb-5">
+        Laundry App
+      </h1>
+    </a>
+    <p-divider></p-divider>
+  </div>
+  <div class="grid gap-2 grid-cols-1 py-3 px-5">
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="bg-white text-indigo-500"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="rounded-lg inline-flex items-center bg-indigo-500 hover:bg-white text-white font-semibold hover:text-indigo-500 text-sm text-left w-full transition duration-0 hover:duration-150 py-3 px-5">
+      <i class="pi pi-home mr-4" style="font-size: 20px"></i> Homepage
+    </a>
+    <a
+      routerLink="/dashboard/transactions"
+      routerLinkActive="bg-white text-indigo-500"
+      class="rounded-lg inline-flex items-center bg-indigo-500 hover:bg-white text-white font-semibold hover:text-indigo-500 text-sm text-left w-full transition duration-0 hover:duration-150 py-3 px-5">
+      <i class="pi pi-chart-bar mr-4" style="font-size: 20px"></i> Transactions
+    </a>
+    <a
+      routerLink="/dashboard/admins"
+      routerLinkActive="bg-white text-indigo-500"
+      class="rounded-lg inline-flex items-center bg-indigo-500 hover:bg-white text-white font-semibold hover:text-indigo-500 text-sm text-left w-full transition duration-0 hover:duration-150 py-3 px-5">
+      <i class="pi pi-users mr-4" style="font-size: 20px"></i> Admins
+    </a>
+  </div>
+</div>

@@ -1,0 +1,214 @@
+<div class="container p-5">
+  <p-toast></p-toast>
+
+  <div class="flex mb-5">
+    <div class="mr-3">
+      <button
+        pButton
+        label="New Transaction"
+        icon="pi pi-plus"
+        class="p-button-success p-button-sm"></button>
+    </div>
+    <div class="mr-auto">
+      <button
+        pButton
+        label="Bulk Delete"
+        icon="pi pi-trash"
+        class="p-button-danger p-button-sm"></button>
+    </div>
+    <button
+      pButton
+      label="Export"
+      icon="pi pi-upload"
+      class="p-button-help p-button-sm"></button>
+  </div>
+
+  <p-table
+    #dt
+    dataKey="id"
+    responsiveLayout="scroll"
+    [value]="transactions"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="[
+      'id',
+      'admin_id',
+      'weight',
+      'total_price',
+      'notes',
+      'status'
+    ]"
+    [(selection)]="selectedTransactions"
+    [rowHover]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="id" class="text-sm">
+          ID <p-sortIcon field="id" style="font-size: 14px"></p-sortIcon>
+        </th>
+        <th pSortableColumn="admin_id" class="text-sm">
+          Admin ID <p-sortIcon field="admin_id"></p-sortIcon>
+        </th>
+        <th pSortableColumn="weight" class="text-sm">
+          Weight <p-sortIcon field="weight"></p-sortIcon>
+        </th>
+        <th pSortableColumn="total_price" class="text-sm">
+          Total Price <p-sortIcon field="total_price"></p-sortIcon>
+        </th>
+        <th class="text-sm">Notes</th>
+        <th pSortableColumn="status" class="text-sm">
+          Status <p-sortIcon field="status"></p-sortIcon>
+        </th>
+        <th class="text-sm">Action</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-transaction>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="transaction"></p-tableCheckbox>
+        </td>
+        <td class="text-sm">
+          {{ transaction.id }}
+        </td>
+        <td class="text-sm">
+          {{ transaction.admin_id }}
+        </td>
+        <td class="text-sm">
+          {{ transaction.weight }}
+        </td>
+        <td class="text-sm">
+          {{ transaction.total_price | currency: 'IDR' }}
+        </td>
+        <td class="text-sm">
+          {{ transaction.status }}
+        </td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-warning p-button-sm mr-2"></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-danger p-button-sm"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-dialog
+    [(visible)]="productDialog"
+    [style]="{ width: '450px' }"
+    header="Product Details"
+    [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <img
+        [src]="'assets/showcase/images/demo/product/' + transaction.image"
+        [alt]="transaction.image"
+        class="product-image"
+        *ngIf="transaction.image" />
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" pInputText id="name" required autofocus />
+        <small class="p-error" *ngIf="isSubmitted && !transaction.name">
+          Name is required.
+        </small>
+      </div>
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          pInputTextarea
+          required
+          rows="3"
+          cols="20"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="inventoryStatus">Inventory Status</label>
+        <p-dropdown
+          inputId="inventoryStatus"
+          [options]="statuses"
+          placeholder="Select">
+          <ng-template let-option pTemplate="item">
+            <span [class]="'product-badge status-' + option.value">{{
+              option.label
+            }}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <div class="field">
+        <label class="mb-3">Category</label>
+        <div class="formgrid grid">
+          <div class="field-radiobutton col-6">
+            <p-radioButton
+              id="category1"
+              name="category"
+              value="Accessories"></p-radioButton>
+            <label for="category1">Accessories</label>
+          </div>
+          <div class="field-radiobutton col-6">
+            <p-radioButton
+              id="category2"
+              name="category"
+              value="Clothing"></p-radioButton>
+            <label for="category2">Clothing</label>
+          </div>
+          <div class="field-radiobutton col-6">
+            <p-radioButton
+              id="category3"
+              name="category"
+              value="Electronics"></p-radioButton>
+            <label for="category3">Electronics</label>
+          </div>
+          <div class="field-radiobutton col-6">
+            <p-radioButton
+              id="category4"
+              name="category"
+              value="Fitness"></p-radioButton>
+            <label for="category4">Fitness</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="formgrid grid">
+        <div class="field col">
+          <label for="price">Price</label>
+          <p-inputNumber
+            id="price"
+            mode="currency"
+            currency="USD"
+            locale="en-US"></p-inputNumber>
+        </div>
+        <div class="field col">
+          <label for="quantity">Quantity</label>
+          <p-inputNumber id="quantity"></p-inputNumber>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"></button>
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text"></button>
+    </ng-template>
+  </p-dialog>
+
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+</div>

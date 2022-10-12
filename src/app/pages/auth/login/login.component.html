@@ -1,0 +1,101 @@
+<p-toast></p-toast>
+
+<div class="container mx-auto">
+  <div class="flex flex-col items-center justify-center min-h-screen">
+    <div class="sm:w-[400px] p-5">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <p-card>
+          <ng-template pTemplate="header">
+            <div class="p-5 pb-0">
+              <h1 class="text-2xl">Login</h1>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div class="field">
+              <div class="p-input-icon-left w-full">
+                <i class="pi pi-at"></i>
+                <input
+                  formControlName="username"
+                  id="username"
+                  type="username"
+                  pInputText
+                  placeholder="Username / Email"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      isSubmitted && loginForm.controls['username'].errors
+                  }"
+                  class="p-inputtext-sm w-full"
+                  aria-label="username" />
+              </div>
+              <small
+                *ngIf="isSubmitted && loginForm.controls['username'].errors"
+                id="username"
+                class="p-error block mt-2">
+                Username / Email invalid!
+              </small>
+            </div>
+            <div class="field mt-4">
+              <div class="p-input-icon-left w-full">
+                <i class="pi pi-lock"></i>
+                <input
+                  formControlName="password"
+                  type="password"
+                  pInputText
+                  placeholder="Password"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      isSubmitted && loginForm.controls['password'].errors
+                  }"
+                  class="p-inputtext-sm w-full"
+                  aria-label="password" />
+              </div>
+              <small
+                *ngIf="isSubmitted && loginForm.controls['password'].errors"
+                id="password"
+                class="p-error block mt-2">
+                Password invalid!
+              </small>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <button
+              type="submit"
+              [disabled]="isLoading"
+              [ngClass]="{
+                'cursor-not-allowed bg-indigo-400': isLoading
+              }"
+              class="inline-flex items-center justify-center px-4 py-2 text-sm leading-6 text-white transition duration-150 ease-in-out bg-indigo-500 rounded-md shadow hover:bg-indigo-400 w-full">
+              <svg
+                *ngIf="isLoading"
+                class="w-5 h-5 mr-3 -ml-1 text-white animate-spin"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24">
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Submit
+            </button>
+            <p class="text-sm text-center mt-3">
+              Don't have an account?
+              <a
+                routerLink="/auth/register"
+                class="text-link text-indigo-500 underline">
+                Sign Up
+              </a>
+            </p>
+          </ng-template>
+        </p-card>
+      </form>
+    </div>
+  </div>
+</div>

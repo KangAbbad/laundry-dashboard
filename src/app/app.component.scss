@@ -1,0 +1,10 @@
+:host {
+  ::ng-deep {
+    .p-button-sm {
+      padding: 0.5rem 1rem;
+    }
+    .p-button-label {
+      @apply pl-0;
+    }
+  }
+}

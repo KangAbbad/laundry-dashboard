@@ -1,0 +1,30 @@
+.navbar-breadcrumb {
+  ::ng-deep {
+    .p-breadcrumb {
+      @apply border-0 px-0;
+    }
+    .p-breadcrumb ul li.p-breadcrumb-chevron {
+      @apply text-xs;
+    }
+    .p-avatar {
+      @apply h-10 w-10;
+    }
+    .p-avatar-text {
+      @apply text-xl;
+    }
+    .p-menuitem-text {
+      @apply text-sm;
+    }
+
+  }
+}
+
+::ng-deep {
+  .p-overlaypanel .p-overlaypanel-content {
+    @apply p-0;
+  }
+
+  .p-button-label {
+    @apply text-left pl-2;
+  }
+}
