@@ -86,10 +86,9 @@ export class TransactionsComponent implements OnInit {
     rows: number;
     pageCount: number;
   }): void {
-    let queryParams = {
+    let queryParams: { page: number; per_page: number; sort?: string } = {
       page: pagination.page + 1,
       per_page: pagination.rows,
-      sort: 'desc',
     };
     this.activatedRoute.queryParams.subscribe(params => {
       if (params['sort']) {

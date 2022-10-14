@@ -1,13 +1,19 @@
+<p-toast></p-toast>
+<p-confirmDialog
+  [baseZIndex]="3"
+  styleClass="md:max-w-[30vw]"></p-confirmDialog>
+
 <div class="container p-5">
   <div class="flex mb-5">
-    <div class="mr-3">
+    <div class="mr-4">
       <button
         pButton
         label="New Admin"
         icon="pi pi-plus"
-        class="p-button-success p-button-sm"></button>
+        class="p-button-success p-button-sm"
+        (click)="onAddPreview()"></button>
     </div>
-    <div class="mr-auto">
+    <div *ngIf="false" class="mr-auto">
       <button
         pButton
         label="Bulk Delete"
@@ -18,7 +24,8 @@
       pButton
       label="Export"
       icon="pi pi-upload"
-      class="p-button-help p-button-sm"></button>
+      class="p-button-help p-button-sm"
+      (click)="onExport()"></button>
   </div>
 
   <p-table
@@ -26,54 +33,43 @@
     dataKey="id"
     responsiveLayout="scroll"
     [value]="admins"
-    [rows]="10"
-    [paginator]="true"
-    [globalFilterFields]="[
-      'id',
-      'username',
-      'email',
-      'phone',
-      'idCard',
-      'name',
-      'address'
-    ]"
     [(selection)]="selectedAdmins"
-    [rowHover]="true">
+    [rows]="perPage"
+    [rowHover]="!isAdminListLoading"
+    [rowsPerPageOptions]="[5, 10, 25, 50, 100]">
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 3rem">
+        <!-- <th style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th>
-        <th pSortableColumn="id" class="text-sm">
-          ID <p-sortIcon field="id" style="font-size: 14px"></p-sortIcon>
-        </th>
-        <th pSortableColumn="username" class="text-sm">
-          Username <p-sortIcon field="username"></p-sortIcon>
-        </th>
-        <th pSortableColumn="email" class="text-sm">
-          Email <p-sortIcon field="email"></p-sortIcon>
-        </th>
-        <th pSortableColumn="phone" class="text-sm">
-          Phone <p-sortIcon field="phone"></p-sortIcon>
-        </th>
-        <th pSortableColumn="id_card" class="text-sm">
-          ID Card <p-sortIcon field="id_card"></p-sortIcon>
-        </th>
-        <th pSortableColumn="name" class="text-sm">
-          Name <p-sortIcon field="name"></p-sortIcon>
-        </th>
-        <th pSortableColumn="address" class="text-sm">
-          Address <p-sortIcon field="address"></p-sortIcon>
-        </th>
+        </th> -->
+        <th class="text-sm">ID</th>
+        <th class="text-sm">Username</th>
+        <th class="text-sm">Email</th>
+        <th class="text-sm">Phone</th>
+        <th class="text-sm">Name</th>
+        <th class="text-sm">ID Card</th>
+        <th class="text-sm">Address</th>
         <th class="text-sm">Action</th>
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body">
-      <tr *ngFor="let admin of admins">
-        <td>
-          <p-tableCheckbox [value]="admin"></p-tableCheckbox>
-        </td>
+    <ng-template pTemplate="body" let-admin>
+      <tr *ngIf="isAdminListLoading">
+        <!-- <td><p-skeleton></p-skeleton></td> -->
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+      </tr>
+
+      <tr *ngIf="!isAdminListLoading">
+        <!-- <td>
+          <p-tableCheckbox [value]="transaction"></p-tableCheckbox>
+        </td> -->
         <td class="text-sm">
           {{ admin.id }}
         </td>
@@ -87,10 +83,10 @@
           {{ admin.phone }}
         </td>
         <td class="text-sm">
-          {{ admin.idCard }}
+          {{ admin.name }}
         </td>
         <td class="text-sm">
-          {{ admin.name }}
+          {{ admin.id_card }}
         </td>
         <td class="text-sm">
           {{ admin.address }}
@@ -98,16 +94,206 @@
         <td>
           <button
             pButton
-            pRipple
             icon="pi pi-pencil"
-            class="p-button-rounded p-button-warning p-button-sm mr-2"></button>
+            class="p-button-warning p-button-sm mr-2"
+            [loading]="admin.id === selectedAdminId && isAdminDetailLoading"
+            (click)="onEditPreview(admin)"></button>
           <button
             pButton
-            pRipple
             icon="pi pi-trash"
-            class="p-button-rounded p-button-danger p-button-sm"></button>
+            class="p-button-danger p-button-sm"
+            [disabled]="isDeleteLoading"
+            [loading]="admin.id === selectedAdminId && isDeleteLoading"
+            (click)="onDeletePreview(admin.id)"></button>
         </td>
       </tr>
     </ng-template>
   </p-table>
+
+  <p-paginator
+    class="custom-pagination"
+    styleClass="mt-4"
+    [rows]="perPage"
+    [totalRecords]="totalData"
+    [rowsPerPageOptions]="[5, 10, 25, 50, 100]"
+    (onPageChange)="onChangePage($event)"></p-paginator>
+
+  <p-dialog
+    [header]="selectedAdmin ? 'Edit Admin' : 'New Admin'"
+    position="top"
+    [(visible)]="isAdminVisible"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="!isSubmitLoading"
+    [style]="{ width: '35vw' }"
+    (onHide)="onHideAdminModal()">
+    <form
+      [formGroup]="adminForm"
+      style="padding-top: 1px"
+      (ngSubmit)="onSubmit()">
+      <div class="field">
+        <p class="text-sm mb-2">Username</p>
+        <input
+          formControlName="username"
+          id="username"
+          type="text"
+          pInputText
+          placeholder="Username"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              isSubmitted && adminForm.controls['username'].errors
+          }"
+          class="p-inputtext-sm w-full"
+          aria-label="username" />
+        <small
+          *ngIf="isSubmitted && adminForm.controls['username'].errors"
+          id="username"
+          class="p-error block mt-2">
+          Username is required!
+        </small>
+      </div>
+
+      <div class="field mt-5">
+        <p class="text-sm mb-2">Email</p>
+        <input
+          formControlName="email"
+          id="email"
+          type="email"
+          pInputText
+          placeholder="Email"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              isSubmitted && adminForm.controls['email'].errors
+          }"
+          class="p-inputtext-sm w-full"
+          aria-label="email" />
+        <small
+          *ngIf="isSubmitted && adminForm.controls['email'].errors"
+          id="email"
+          class="p-error block mt-2">
+          Email is required!
+        </small>
+      </div>
+
+      <div class="field mt-5">
+        <p class="text-sm mb-2">Phone</p>
+        <input
+          formControlName="phone"
+          id="phone"
+          type="text"
+          pInputText
+          placeholder="Phone"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              isSubmitted && adminForm.controls['phone'].errors
+          }"
+          class="p-inputtext-sm w-full"
+          aria-label="phone" />
+        <small
+          *ngIf="isSubmitted && adminForm.controls['phone'].errors"
+          id="phone"
+          class="p-error block mt-2">
+          Phone is required!
+        </small>
+      </div>
+
+      <div class="field mt-5">
+        <p class="text-sm mb-2">Name</p>
+        <input
+          formControlName="name"
+          id="name"
+          type="text"
+          pInputText
+          placeholder="Name"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              isSubmitted && adminForm.controls['name'].errors
+          }"
+          class="p-inputtext-sm w-full"
+          aria-label="name" />
+        <small
+          *ngIf="isSubmitted && adminForm.controls['name'].errors"
+          id="name"
+          class="p-error block mt-2">
+          Name is required!
+        </small>
+      </div>
+
+      <div class="field mt-5">
+        <p class="text-sm mb-2">ID Card</p>
+        <input
+          formControlName="idCard"
+          id="idCard"
+          type="text"
+          pInputText
+          placeholder="ID Card"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              isSubmitted && adminForm.controls['idCard'].errors
+          }"
+          class="p-inputtext-sm w-full"
+          aria-label="idCard" />
+        <small
+          *ngIf="isSubmitted && adminForm.controls['idCard'].errors"
+          id="idCard"
+          class="p-error block mt-2">
+          ID Card is required!
+        </small>
+      </div>
+
+      <div class="field mt-5">
+        <p class="text-sm mb-2">Address</p>
+        <textarea
+          formControlName="address"
+          id="address"
+          [rows]="5"
+          [cols]="30"
+          pInputTextarea
+          placeholder="Address"
+          class="p-inputtext-sm w-full"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              isSubmitted && adminForm.controls['address'].errors
+          }"></textarea>
+        <small
+          *ngIf="isSubmitted && adminForm.controls['address'].errors"
+          id="address"
+          class="p-error block mt-2">
+          Address is required!
+        </small>
+      </div>
+
+      <div class="field mt-5">
+        <p class="text-sm mb-2">Password</p>
+        <input
+          formControlName="password"
+          id="password"
+          type="password"
+          pInputText
+          placeholder="Password"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              isSubmitted && adminForm.controls['password'].errors
+          }"
+          class="p-inputtext-sm w-full"
+          aria-label="password" />
+        <small
+          *ngIf="isSubmitted && adminForm.controls['password'].errors"
+          id="password"
+          class="p-error block mt-2">
+          Password is required!
+        </small>
+      </div>
+
+      <div class="text-end mt-7">
+        <button
+          pButton
+          label="Save"
+          type="submit"
+          class="p-button-primary p-button-sm py-2 px-10"
+          [loading]="isSubmitLoading"></button>
+      </div>
+    </form>
+  </p-dialog>
 </div>

@@ -10,3 +10,13 @@ export interface IAdmin {
   created_at: number;
   updated_at: number;
 }
+
+export interface IAdminRequest {
+  username: string;
+  email: string;
+  phone: string;
+  name: string;
+  id_card: string;
+  address: string;
+  password: string;
+}

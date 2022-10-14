@@ -15,6 +15,7 @@
       #rla="routerLinkActive"
       class="rounded-lg inline-flex items-center font-semibold text-sm text-left w-full transition duration-0 hover:duration-150 py-3 px-5"
       [routerLinkActiveOptions]="{ exact: navigationMenu.exact }"
+      [queryParams]="navigationMenu.queryParams"
       [ngClass]="{
         'bg-white text-indigo-600': rla.isActive,
         'bg-indigo-500 hover:bg-white text-white hover:text-indigo-500':
