@@ -5,12 +5,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { of, Subject, switchMap, takeUntil } from 'rxjs';
-import {
-  ConfirmationService,
-  ConfirmEventType,
-  MessageService,
-} from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { saveAs } from 'file-saver';
 
 import { TransactionsService } from 'src/app/services/transactions/transactions.service';
 import { ITransaction, ITransactionRequest } from 'src/app/models/ITransaction';
@@ -42,6 +40,7 @@ export class TransactionsComponent implements OnInit {
   admins: IAdmin[] = [];
   selectedAdmin: IAdmin | undefined;
   isSubmitted: boolean = false;
+  isTransactionLoading: boolean = false;
   isSubmitLoading: boolean = false;
   isAdminLoading: boolean = false;
   isDeleteLoading: boolean = false;
@@ -52,6 +51,7 @@ export class TransactionsComponent implements OnInit {
   totalData: number = 1;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private transactionsService: TransactionsService,
     private adminsService: AdminsService,
@@ -60,17 +60,43 @@ export class TransactionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.onGetTransactions();
+    let queryParams = {};
+    this.activatedRoute.queryParams.subscribe(params => {
+      queryParams = params;
+    });
+    this.onGetTransactions(queryParams);
   }
 
-  onGetTransactions(): void {
+  onGetTransactions(params?: { [key: string]: string | number }): void {
+    this.isTransactionLoading = true;
+
     this.transactionsService
-      .httpGetTransactions()
+      .httpGetTransactions(params)
       .pipe(takeUntil(this.ngUnsubsribe))
       .subscribe(res => {
         this.transactions = res.data;
         this.totalData = res.meta.total_data;
+        this.isTransactionLoading = false;
       });
+  }
+
+  onChangePage(pagination: {
+    page: number;
+    first: number;
+    rows: number;
+    pageCount: number;
+  }): void {
+    let queryParams = {
+      page: pagination.page + 1,
+      per_page: pagination.rows,
+      sort: 'desc',
+    };
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['sort']) {
+        queryParams.sort = params['sort'];
+      }
+    });
+    this.onGetTransactions(queryParams);
   }
 
   onToggleTransactionModal(): void {
@@ -92,6 +118,15 @@ export class TransactionsComponent implements OnInit {
     this.selectedAdmin = undefined;
   }
 
+  onExport(): void {
+    this.transactionsService
+      .httpGetTransactionExcel()
+      .pipe(takeUntil(this.ngUnsubsribe))
+      .subscribe(blob => {
+        saveAs(blob, 'transactions.xlsx');
+      });
+  }
+
   onAddPreview(): void {
     this.onToggleTransactionModal();
     this.transactionForm = this.formBuilder.group({
@@ -104,6 +139,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   onEditPreview(transaction: ITransaction): void {
+    this.selectedTransactionId = transaction.id;
     this.isAdminLoading = true;
 
     this.adminsService

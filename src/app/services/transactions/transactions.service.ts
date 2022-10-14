@@ -17,12 +17,20 @@ export class TransactionsService {
     return this.http.post(this.url, body);
   }
 
-  httpGetTransactions(): Observable<any> {
-    return this.http.get(this.url);
+  httpGetTransactions(params?: {
+    [key: string]: string | number;
+  }): Observable<any> {
+    return this.http.get(this.url, { params });
   }
 
   httpGetTransactionDetail(id: number): Observable<any> {
     return this.http.get(`${this.url}/${id}`);
+  }
+
+  httpGetTransactionExcel(): Observable<any> {
+    return this.http.get(`${this.url}/download-excel`, {
+      responseType: 'blob',
+    });
   }
 
   httpUpdateTransaction(

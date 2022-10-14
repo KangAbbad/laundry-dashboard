@@ -9,23 +9,21 @@
   </div>
   <div class="grid gap-2 grid-cols-1 py-3 px-5">
     <a
-      routerLink="/dashboard"
-      routerLinkActive="bg-white text-indigo-500"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="rounded-lg inline-flex items-center bg-indigo-500 hover:bg-white text-white font-semibold hover:text-indigo-500 text-sm text-left w-full transition duration-0 hover:duration-150 py-3 px-5">
-      <i class="pi pi-home mr-4" style="font-size: 20px"></i> Homepage
-    </a>
-    <a
-      routerLink="/dashboard/transactions"
-      routerLinkActive="bg-white text-indigo-500"
-      class="rounded-lg inline-flex items-center bg-indigo-500 hover:bg-white text-white font-semibold hover:text-indigo-500 text-sm text-left w-full transition duration-0 hover:duration-150 py-3 px-5">
-      <i class="pi pi-chart-bar mr-4" style="font-size: 20px"></i> Transactions
-    </a>
-    <a
-      routerLink="/dashboard/admins"
-      routerLinkActive="bg-white text-indigo-500"
-      class="rounded-lg inline-flex items-center bg-indigo-500 hover:bg-white text-white font-semibold hover:text-indigo-500 text-sm text-left w-full transition duration-0 hover:duration-150 py-3 px-5">
-      <i class="pi pi-users mr-4" style="font-size: 20px"></i> Admins
+      *ngFor="let navigationMenu of navigations"
+      [routerLink]="[navigationMenu.url]"
+      routerLinkActive
+      #rla="routerLinkActive"
+      class="rounded-lg inline-flex items-center font-semibold text-sm text-left w-full transition duration-0 hover:duration-150 py-3 px-5"
+      [routerLinkActiveOptions]="{ exact: navigationMenu.exact }"
+      [ngClass]="{
+        'bg-white text-indigo-600': rla.isActive,
+        'bg-indigo-500 hover:bg-white text-white hover:text-indigo-500':
+          !rla.isActive
+      }">
+      <i
+        [ngClass]="true && navigationMenu.icon + ' mr-4'"
+        style="font-size: 20px"></i>
+      {{ navigationMenu.title }}
     </a>
   </div>
 </div>

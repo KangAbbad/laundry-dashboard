@@ -13,6 +13,8 @@ import { MessageService } from 'primeng/api';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { PaginatorModule } from 'primeng/paginator';
+import { SkeletonModule } from 'primeng/skeleton';
 
 import { TransactionsService } from 'src/app/services/transactions/transactions.service';
 import { TransactionsComponent } from './transactions.component';
@@ -35,6 +37,8 @@ import { AdminsService } from 'src/app/services/admins/admins.service';
     ToastModule,
     RadioButtonModule,
     ConfirmDialogModule,
+    PaginatorModule,
+    SkeletonModule,
   ],
   declarations: [TransactionsComponent],
   providers: [

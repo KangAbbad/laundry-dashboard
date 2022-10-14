@@ -5,7 +5,7 @@
 
 <div class="container p-5">
   <div class="flex mb-5">
-    <div class="mr-3">
+    <div class="mr-auto">
       <button
         pButton
         label="New Transaction"
@@ -13,7 +13,7 @@
         class="p-button-success p-button-sm"
         (click)="onAddPreview()"></button>
     </div>
-    <div class="mr-auto">
+    <div *ngIf="false" class="mr-auto">
       <button
         pButton
         label="Bulk Delete"
@@ -24,26 +24,24 @@
       pButton
       label="Export"
       icon="pi pi-upload"
-      class="p-button-help p-button-sm"></button>
+      class="p-button-help p-button-sm"
+      (click)="onExport()"></button>
   </div>
 
   <p-table
     #dt
     dataKey="id"
     responsiveLayout="scroll"
-    class="transaction-pagination"
     [value]="transactions"
     [(selection)]="selectedTransactions"
-    [paginator]="true"
-    [rows]="10"
-    [rowHover]="true"
-    [rowsPerPageOptions]="[5, 10, 25, 50, 100]"
-    [totalRecords]="transactions.length">
+    [rows]="perPage"
+    [rowHover]="!isTransactionLoading"
+    [rowsPerPageOptions]="[5, 10, 25, 50, 100]">
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 3rem">
+        <!-- <th style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th>
+        </th> -->
         <th class="text-sm">ID</th>
         <th class="text-sm">Admin ID</th>
         <th class="text-sm">Weight</th>
@@ -55,10 +53,21 @@
     </ng-template>
 
     <ng-template pTemplate="body" let-transaction>
-      <tr>
-        <td>
+      <tr *ngIf="isTransactionLoading">
+        <!-- <td><p-skeleton></p-skeleton></td> -->
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+      </tr>
+
+      <tr *ngIf="!isTransactionLoading">
+        <!-- <td>
           <p-tableCheckbox [value]="transaction"></p-tableCheckbox>
-        </td>
+        </td> -->
         <td class="text-sm">
           {{ transaction.id }}
         </td>
@@ -101,7 +110,9 @@
             pButton
             icon="pi pi-pencil"
             class="p-button-warning p-button-sm mr-2"
-            [loading]="isAdminLoading"
+            [loading]="
+              transaction.id === selectedTransactionId && isAdminLoading
+            "
             (click)="onEditPreview(transaction)"></button>
           <button
             pButton
@@ -116,6 +127,14 @@
       </tr>
     </ng-template>
   </p-table>
+
+  <p-paginator
+    class="custom-pagination"
+    styleClass="mt-4"
+    [rows]="perPage"
+    [totalRecords]="totalData"
+    [rowsPerPageOptions]="[5, 10, 25, 50, 100]"
+    (onPageChange)="onChangePage($event)"></p-paginator>
 
   <p-dialog
     [header]="selectedTransaction ? 'Edit Transaction' : 'New Transaction'"
