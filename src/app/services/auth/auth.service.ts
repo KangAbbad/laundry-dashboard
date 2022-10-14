@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { ILoginRequest, IRegisterRequest } from 'src/app/models/IAuth';
 import { environment } from 'src/environments/environment';

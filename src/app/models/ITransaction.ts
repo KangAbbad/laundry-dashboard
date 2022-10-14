@@ -8,3 +8,11 @@ export interface ITransaction {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface ITransactionRequest {
+  admin_id: number;
+  weight: number;
+  notes: string;
+  total_price: number;
+  status: string;
+}

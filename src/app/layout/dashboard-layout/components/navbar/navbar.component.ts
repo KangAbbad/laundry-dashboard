@@ -29,6 +29,15 @@ export class NavbarComponent implements OnInit, DoCheck {
     this.breadcrumbItems = [{ label: this.title.getTitle(), disabled: true }];
   }
 
+  getCredential(): { initialName: string; name: string } {
+    const currentSession = this.sessionService.getSession();
+    const credentialData = {
+      initialName: currentSession.name.charAt(0).toUpperCase(),
+      name: currentSession.name,
+    };
+    return credentialData;
+  }
+
   onLogout(): void {
     this.sessionService.destroySession();
     this.router.navigateByUrl('/auth/login');

@@ -13,7 +13,7 @@ export class SessionService {
     localStorage.setItem('admin_info', JSON.stringify(adminInfo));
   }
 
-  getSession(): any {
+  getSession(): IAdminInfo {
     return JSON.parse(localStorage.getItem('admin_info') as string);
   }
 
@@ -27,7 +27,7 @@ export class SessionService {
   }
 
   getEmail(): Observable<string> {
-    const email = this.getSession()?.data;
+    const email = this.getSession().email;
     return of(email);
   }
 

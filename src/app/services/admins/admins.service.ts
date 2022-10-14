@@ -11,15 +11,15 @@ export class AdminsService {
 
   constructor(private http: HttpClient) {}
 
-  // httpCreateLogin(body: ILoginRequest): Observable<Object> {
-  //   return this.http.post(this.adminsUrl, body);
-  // }
-
   httpCreateAdmin(body: IRegisterRequest): Observable<any> {
     return this.http.post(this.adminsUrl, body);
   }
 
-  httpGetAdminList(): Observable<any> {
+  httpGetAdmins(): Observable<any> {
     return this.http.get(this.adminsUrl);
+  }
+
+  httpGetAdminDetail(id: number): Observable<any> {
+    return this.http.get(`${this.adminsUrl}/${id}`);
   }
 }

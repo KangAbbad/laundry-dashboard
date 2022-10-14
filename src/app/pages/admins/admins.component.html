@@ -1,3 +1,113 @@
-<div class="container mx-auto">
-  <h1 class="text-3xl font-bold underline">Admins Works!</h1>
+<div class="container p-5">
+  <div class="flex mb-5">
+    <div class="mr-3">
+      <button
+        pButton
+        label="New Admin"
+        icon="pi pi-plus"
+        class="p-button-success p-button-sm"></button>
+    </div>
+    <div class="mr-auto">
+      <button
+        pButton
+        label="Bulk Delete"
+        icon="pi pi-trash"
+        class="p-button-danger p-button-sm"></button>
+    </div>
+    <button
+      pButton
+      label="Export"
+      icon="pi pi-upload"
+      class="p-button-help p-button-sm"></button>
+  </div>
+
+  <p-table
+    #dt
+    dataKey="id"
+    responsiveLayout="scroll"
+    [value]="admins"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="[
+      'id',
+      'username',
+      'email',
+      'phone',
+      'idCard',
+      'name',
+      'address'
+    ]"
+    [(selection)]="selectedAdmins"
+    [rowHover]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="id" class="text-sm">
+          ID <p-sortIcon field="id" style="font-size: 14px"></p-sortIcon>
+        </th>
+        <th pSortableColumn="username" class="text-sm">
+          Username <p-sortIcon field="username"></p-sortIcon>
+        </th>
+        <th pSortableColumn="email" class="text-sm">
+          Email <p-sortIcon field="email"></p-sortIcon>
+        </th>
+        <th pSortableColumn="phone" class="text-sm">
+          Phone <p-sortIcon field="phone"></p-sortIcon>
+        </th>
+        <th pSortableColumn="id_card" class="text-sm">
+          ID Card <p-sortIcon field="id_card"></p-sortIcon>
+        </th>
+        <th pSortableColumn="name" class="text-sm">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="address" class="text-sm">
+          Address <p-sortIcon field="address"></p-sortIcon>
+        </th>
+        <th class="text-sm">Action</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body">
+      <tr *ngFor="let admin of admins">
+        <td>
+          <p-tableCheckbox [value]="admin"></p-tableCheckbox>
+        </td>
+        <td class="text-sm">
+          {{ admin.id }}
+        </td>
+        <td class="text-sm">
+          {{ admin.username }}
+        </td>
+        <td class="text-sm">
+          {{ admin.email }}
+        </td>
+        <td class="text-sm">
+          {{ admin.phone }}
+        </td>
+        <td class="text-sm">
+          {{ admin.idCard }}
+        </td>
+        <td class="text-sm">
+          {{ admin.name }}
+        </td>
+        <td class="text-sm">
+          {{ admin.address }}
+        </td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-warning p-button-sm mr-2"></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-danger p-button-sm"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>

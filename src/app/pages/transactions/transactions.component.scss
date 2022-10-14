@@ -1,0 +1,27 @@
+:host {
+  ::ng-deep {
+    .p-dialog-footer {
+      .p-button-icon {
+        @apply hidden;
+      }
+    }
+
+    .p-dialog {
+      .p-dialog-header {
+        .p-dialog-title {
+          @apply text-xl;
+        }
+      }
+
+      &.p-confirm-dialog {
+        .p-confirm-dialog-message {
+          @apply text-sm ml-0;
+        }
+      }
+    }
+
+    .p-confirm-dialog-icon {
+      @apply hidden;
+    }
+  }
+}

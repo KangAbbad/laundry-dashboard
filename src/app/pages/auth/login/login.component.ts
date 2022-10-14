@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, switchMap } from 'rxjs';
 
 import { IAdminInfo } from 'src/app/models/IAuth';
-import { AdminsService } from 'src/app/services/admins/admins.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { SessionService } from 'src/app/services/session/session.service';
 
 @Component({
@@ -25,24 +25,17 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    // private formBuilder: FormBuilder,
     private messageService: MessageService,
-    // private authService: AuthService,
-    private sessionService: SessionService,
-    private adminsService: AdminsService
+    private authService: AuthService,
+    private sessionService: SessionService
   ) {}
 
   ngOnInit(): void {
-    // this.loginForm = this.formBuilder.group({
-    //   email: ['user01', Validators.required],
-    //   password: ['rahasia123', Validators.required],
-    // });
-
     this.activatedRoute.queryParams.subscribe(params => {
       if (!Object.keys(params).length) return;
       this.loginForm.setValue({
         ...this.loginForm.value,
-        email: params['email'],
+        username: params['email'],
       });
     });
   }
@@ -70,43 +63,30 @@ export class LoginComponent implements OnInit {
 
     this.isLoading = true;
 
-    this.adminsService
-      .httpGetAdminList()
+    this.authService
+      .httpCreateLogin(this.loginForm.value)
       .pipe(
-        // switchMap((res: any) => {
-        //   if (res) localStorage.setItem('access_token', res.data.access_token);
-        //   return this.authService.httpGetUserInfo();
-        // }),
+        switchMap((res: any) => {
+          if (res) localStorage.setItem('access_token', res.data.access_token);
+          return this.authService.httpGetUserInfo();
+        }),
         takeUntil(this.ngUnsubsribe)
       )
-      .subscribe(res => {
-        const delayTest = 1500;
-        localStorage.setItem('access_token', 'testingpurpose');
+      .subscribe((res: any) => {
+        if (res) {
+          const { id_card: idCard, ...rest } = res.data;
+          const currentSession: IAdminInfo = { ...rest, idCard };
 
-        if (res.length) {
-          const selectedAdmin: IAdminInfo = res.find((admin: IAdminInfo) => {
-            const isEmailValid = this.loginForm.value.username === admin.email;
-            const isUsernameValid =
-              this.loginForm.value.username === admin.username;
-            const isPasswordValid =
-              this.loginForm.value.password === admin.password;
+          this.sessionService.createSession(currentSession);
+          this.onShowSuccessLogin(currentSession);
 
-            if ((isEmailValid || isUsernameValid) && isPasswordValid) {
-              return admin;
-            } else {
-              return null;
-            }
-          });
-
-          if (selectedAdmin) {
-            this.onShowSuccessLogin(selectedAdmin);
-            this.sessionService.createSession(res as IAdminInfo);
-            setTimeout(() => {
-              this.isSubmitted = false;
-              this.isLoading = false;
-              this.router.navigateByUrl('/dashboard');
-            }, delayTest);
-          }
+          setTimeout(() => {
+            this.isSubmitted = false;
+            this.isLoading = false;
+            this.router.navigateByUrl('/dashboard');
+          }, 1000);
+        } else {
+          this.onShowErrorLogin();
         }
       });
   }

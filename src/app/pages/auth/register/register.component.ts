@@ -34,25 +34,19 @@ export class RegisterComponent {
 
     this.isLoading = true;
 
-    const delayTest =
-      environment.baseUrl === 'http://localhost:3000' ? 3000 : 0;
+    const { idCard, ...rest } = this.registerForm.value;
+    const payload = { ...rest, id_card: idCard };
+    this.authService.httpCreateRegister(payload).subscribe(res => {
+      if (!res) return;
 
-    setTimeout(() => {
-      this.authService
-        .httpCreateRegister(this.registerForm.value)
-        .subscribe(res => {
-          if (!res) return;
+      this.router.navigate(['/auth/login'], {
+        queryParams: {
+          email: this.registerForm.value.email,
+        },
+      });
 
-          this.router.navigate(['/auth/login'], {
-            queryParams: {
-              email: this.registerForm.value.email,
-            },
-          });
-
-          this.isSubmitted = false;
-          this.isLoading = false;
-          this.router.navigateByUrl('/auth/login');
-        });
-    }, delayTest);
+      this.isSubmitted = false;
+      this.isLoading = false;
+    });
   }
 }

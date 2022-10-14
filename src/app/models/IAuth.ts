@@ -27,7 +27,7 @@ export interface IAdminInfo {
   username: string;
   email: string;
   phone: string;
-  id_card: string;
+  idCard: string;
   name: string;
   address: string;
   password?: string;

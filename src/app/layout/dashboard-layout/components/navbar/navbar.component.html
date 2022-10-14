@@ -33,8 +33,11 @@
         class="p-0 transition duration-150 ease-in-out"
         (click)="op.toggle($event)">
         <div class="flex items-center">
-          <p-avatar label="A" shape="circle" class="mr-3"></p-avatar>
-          <h6>Abbad</h6>
+          <p-avatar
+            [label]="getCredential().initialName"
+            shape="circle"
+            class="mr-3"></p-avatar>
+          <h6>{{ getCredential().name }}</h6>
         </div>
       </button>
     </div>
