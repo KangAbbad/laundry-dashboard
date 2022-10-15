@@ -1,9 +1,7 @@
 <div class="bg-indigo-500 min-h-screen h-full min-w-[250px]">
   <div class="p-5 pb-0">
     <a routerLink="/dashboard">
-      <h1 class="text-white text-center text-2xl font-semibold mb-5">
-        Laundry App
-      </h1>
+      <h1 class="text-white text-center text-2xl font-semibold mb-5">Laundry App</h1>
     </a>
     <p-divider></p-divider>
   </div>
@@ -14,16 +12,13 @@
       routerLinkActive
       #rla="routerLinkActive"
       class="rounded-lg inline-flex items-center font-semibold text-sm text-left w-full transition duration-0 hover:duration-150 py-3 px-5"
-      [routerLinkActiveOptions]="{ exact: navigationMenu.exact }"
+      [routerLinkActiveOptions]="navigationMenu.routerLinkActiveOptions"
       [queryParams]="navigationMenu.queryParams"
       [ngClass]="{
         'bg-white text-indigo-600': rla.isActive,
-        'bg-indigo-500 hover:bg-white text-white hover:text-indigo-500':
-          !rla.isActive
+        'bg-indigo-500 hover:bg-white text-white hover:text-indigo-500': !rla.isActive
       }">
-      <i
-        [ngClass]="true && navigationMenu.icon + ' mr-4'"
-        style="font-size: 20px"></i>
+      <i [ngClass]="true && navigationMenu.icon + ' mr-4'" style="font-size: 20px"></i>
       {{ navigationMenu.title }}
     </a>
   </div>

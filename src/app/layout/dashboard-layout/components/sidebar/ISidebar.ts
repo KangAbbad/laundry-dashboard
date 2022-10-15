@@ -1,6 +1,19 @@
+import { IsActiveMatchOptions } from '@angular/router';
+
+export const defaultRouterLinkActiveOptions: IsActiveMatchOptions = {
+  queryParams: 'ignored',
+  matrixParams: 'exact',
+  paths: 'exact',
+  fragment: 'exact',
+};
+
 export interface INavigationMenu {
   url: string;
-  exact: boolean;
+  routerLinkActiveOptions:
+    | {
+        exact: boolean;
+      }
+    | IsActiveMatchOptions;
   queryParams: {
     [key: string]: string | number;
   };

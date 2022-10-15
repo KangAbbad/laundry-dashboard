@@ -1,13 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of, Subject, switchMap, takeUntil } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Paginator } from 'primeng/paginator';
 import { saveAs } from 'file-saver';
 
 import { TransactionsService } from 'src/app/services/transactions/transactions.service';
@@ -21,13 +17,12 @@ import { AdminsService } from 'src/app/services/admins/admins.service';
   styleUrls: ['./transactions.component.scss'],
 })
 export class TransactionsComponent implements OnInit {
+  @ViewChild('paginator', { static: false }) paginator: Paginator | undefined;
+
   private ngUnsubsribe: Subject<any> = new Subject();
   transactionForm: FormGroup = new FormGroup({
     admin: new FormControl('', Validators.required),
-    weight: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[0-9]*$'),
-    ]),
+    weight: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
     notes: new FormControl('', Validators.required),
     totalPrice: new FormControl('', Validators.required),
     status: new FormControl('NEW', Validators.required),
@@ -45,12 +40,14 @@ export class TransactionsComponent implements OnInit {
   isAdminLoading: boolean = false;
   isDeleteLoading: boolean = false;
 
+  firstPaginator: number = 0;
   currentPage: number = 1;
   perPage: number = 5;
   totalPage: number = 1;
   totalData: number = 1;
 
   constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private transactionsService: TransactionsService,
@@ -62,13 +59,34 @@ export class TransactionsComponent implements OnInit {
   ngOnInit(): void {
     let queryParams = {};
     this.activatedRoute.queryParams.subscribe(params => {
-      queryParams = params;
+      const page = Number(params['page']);
+      const perPage = Number(params['per_page']);
+
+      queryParams = {
+        page,
+        per_page: perPage,
+      };
+
+      setTimeout(() => {
+        this.currentPage = page;
+        this.perPage = perPage;
+        this.firstPaginator = (page - 1) * perPage;
+      }, 0);
     });
     this.onGetTransactions(queryParams);
   }
 
+  // ngDoCheck(): void {
+  //   console.log('firstPage', this.firstPaginator);
+  //   console.log('currentPage', this.currentPage);
+  //   console.log('perPage', this.perPage);
+  //   // console.clear();
+  // }
+
   onGetTransactions(params?: { [key: string]: string | number }): void {
     this.isTransactionLoading = true;
+
+    this.router.navigate(['/dashboard/transactions'], { queryParams: params, replaceUrl: true });
 
     this.transactionsService
       .httpGetTransactions(params)
@@ -80,12 +98,7 @@ export class TransactionsComponent implements OnInit {
       });
   }
 
-  onChangePage(pagination: {
-    page: number;
-    first: number;
-    rows: number;
-    pageCount: number;
-  }): void {
+  onChangePage(pagination: { page: number; first: number; rows: number; pageCount: number }): void {
     let queryParams: { page: number; per_page: number; sort?: string } = {
       page: pagination.page + 1,
       per_page: pagination.rows,
@@ -148,9 +161,7 @@ export class TransactionsComponent implements OnInit {
           if (res.data) {
             this.selectedAdmin = res.data;
             this.isAdminLoading = false;
-            return this.transactionsService.httpGetTransactionDetail(
-              transaction.id
-            );
+            return this.transactionsService.httpGetTransactionDetail(transaction.id);
           } else {
             this.messageService.add({
               severity: 'error',
@@ -180,8 +191,7 @@ export class TransactionsComponent implements OnInit {
     this.selectedTransactionId = id;
     this.confirmationService.confirm({
       header: 'Delete Transaction',
-      message:
-        'Do you want to delete this transaction? Transaction will deleted permanently, so be careful',
+      message: 'Do you want to delete this transaction? Transaction will deleted permanently, so be careful',
       icon: 'pi pi-info-circle',
       defaultFocus: 'none',
       acceptIcon: '',
@@ -219,8 +229,7 @@ export class TransactionsComponent implements OnInit {
 
     this.isSubmitLoading = true;
 
-    const { admin, weight, totalPrice, notes, status } =
-      this.transactionForm.value;
+    const { admin, weight, totalPrice, notes, status } = this.transactionForm.value;
 
     const payload: ITransactionRequest = {
       admin_id: admin.id,
@@ -231,10 +240,7 @@ export class TransactionsComponent implements OnInit {
     };
 
     const httpSubmitService = this.selectedTransaction
-      ? this.transactionsService.httpUpdateTransaction(
-          this.selectedTransaction.id,
-          payload
-        )
+      ? this.transactionsService.httpUpdateTransaction(this.selectedTransaction.id, payload)
       : this.transactionsService.httpCreateTransaction(payload);
 
     httpSubmitService.pipe(takeUntil(this.ngUnsubsribe)).subscribe(() => {

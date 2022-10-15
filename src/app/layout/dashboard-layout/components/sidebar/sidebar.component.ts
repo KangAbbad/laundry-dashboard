@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { INavigationMenu } from './ISidebar';
+import { defaultRouterLinkActiveOptions, INavigationMenu } from './ISidebar';
 
 @Component({
   selector: 'app-sidebar-component',
@@ -10,14 +10,14 @@ export class SidebarComponent {
   navigations: INavigationMenu[] = [
     {
       url: '/dashboard',
-      exact: true,
+      routerLinkActiveOptions: defaultRouterLinkActiveOptions,
       queryParams: {},
       icon: 'pi pi-home',
       title: 'Homepage',
     },
     {
       url: '/dashboard/transactions',
-      exact: false,
+      routerLinkActiveOptions: defaultRouterLinkActiveOptions,
       queryParams: {
         page: 1,
         per_page: 5,
@@ -27,7 +27,7 @@ export class SidebarComponent {
     },
     {
       url: '/dashboard/admins',
-      exact: false,
+      routerLinkActiveOptions: defaultRouterLinkActiveOptions,
       queryParams: {
         page: 1,
         per_page: 5,

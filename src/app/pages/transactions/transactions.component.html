@@ -1,7 +1,5 @@
 <p-toast></p-toast>
-<p-confirmDialog
-  [baseZIndex]="3"
-  styleClass="md:max-w-[30vw]"></p-confirmDialog>
+<p-confirmDialog [baseZIndex]="3" styleClass="md:max-w-[30vw]"></p-confirmDialog>
 
 <div class="container p-5">
   <div class="flex mb-5">
@@ -14,18 +12,9 @@
         (click)="onAddPreview()"></button>
     </div>
     <div *ngIf="false" class="mr-auto">
-      <button
-        pButton
-        label="Bulk Delete"
-        icon="pi pi-trash"
-        class="p-button-danger p-button-sm"></button>
+      <button pButton label="Bulk Delete" icon="pi pi-trash" class="p-button-danger p-button-sm"></button>
     </div>
-    <button
-      pButton
-      label="Export"
-      icon="pi pi-upload"
-      class="p-button-help p-button-sm"
-      (click)="onExport()"></button>
+    <button pButton label="Export" icon="pi pi-upload" class="p-button-help p-button-sm" (click)="onExport()"></button>
   </div>
 
   <p-table
@@ -84,9 +73,7 @@
           {{ transaction.notes }}
         </td>
         <td class="text-sm">
-          <span
-            *ngIf="transaction.status === 'NEW'"
-            class="rounded-lg drop-shadow-md bg-blue-600 text-white py-2 px-4">
+          <span *ngIf="transaction.status === 'NEW'" class="rounded-lg drop-shadow-md bg-blue-600 text-white py-2 px-4">
             {{ transaction.status }}
           </span>
           <span
@@ -110,18 +97,14 @@
             pButton
             icon="pi pi-pencil"
             class="p-button-warning p-button-sm mr-2"
-            [loading]="
-              transaction.id === selectedTransactionId && isAdminLoading
-            "
+            [loading]="transaction.id === selectedTransactionId && isAdminLoading"
             (click)="onEditPreview(transaction)"></button>
           <button
             pButton
             icon="pi pi-trash"
             class="p-button-danger p-button-sm"
             [disabled]="isDeleteLoading"
-            [loading]="
-              transaction.id === selectedTransactionId && isDeleteLoading
-            "
+            [loading]="transaction.id === selectedTransactionId && isDeleteLoading"
             (click)="onDeletePreview(transaction.id)"></button>
         </td>
       </tr>
@@ -129,8 +112,10 @@
   </p-table>
 
   <p-paginator
+    #paginator
     class="custom-pagination"
     styleClass="mt-4"
+    [first]="firstPaginator"
     [rows]="perPage"
     [totalRecords]="totalData"
     [rowsPerPageOptions]="[5, 10, 25, 50, 100]"
@@ -146,10 +131,7 @@
     [closable]="!isSubmitLoading"
     [style]="{ width: '35vw' }"
     (onHide)="onHideTransactionModal()">
-    <form
-      [formGroup]="transactionForm"
-      style="padding-top: 1px"
-      (ngSubmit)="onSubmit()">
+    <form [formGroup]="transactionForm" style="padding-top: 1px" (ngSubmit)="onSubmit()">
       <div class="field">
         <p class="text-sm mb-2">Admin</p>
         <p-dropdown
@@ -163,8 +145,7 @@
           [options]="admins"
           [showClear]="true"
           [ngClass]="{
-            'ng-invalid ng-dirty':
-              isSubmitted && transactionForm.controls['admin'].errors
+            'ng-invalid ng-dirty': isSubmitted && transactionForm.controls['admin'].errors
           }">
           <ng-template pTemplate="selectedItem">
             <div *ngIf="transactionForm.value.admin">
@@ -175,10 +156,7 @@
             <div>{{ admin.name }}</div>
           </ng-template>
         </p-dropdown>
-        <small
-          *ngIf="isSubmitted && transactionForm.controls['admin'].errors"
-          id="admin"
-          class="p-error block mt-2">
+        <small *ngIf="isSubmitted && transactionForm.controls['admin'].errors" id="admin" class="p-error block mt-2">
           Admin is required!
         </small>
       </div>
@@ -192,15 +170,11 @@
           pInputText
           placeholder="Weight (kg)"
           [ngClass]="{
-            'ng-invalid ng-dirty':
-              isSubmitted && transactionForm.controls['weight'].errors
+            'ng-invalid ng-dirty': isSubmitted && transactionForm.controls['weight'].errors
           }"
           class="p-inputtext-sm w-full"
           aria-label="weight" />
-        <small
-          *ngIf="isSubmitted && transactionForm.controls['weight'].errors"
-          id="weight"
-          class="p-error block mt-2">
+        <small *ngIf="isSubmitted && transactionForm.controls['weight'].errors" id="weight" class="p-error block mt-2">
           Weight is required!
         </small>
       </div>
@@ -218,8 +192,7 @@
           styleClass="w-full"
           class="w-full"
           [ngClass]="{
-            'ng-invalid ng-dirty':
-              isSubmitted && transactionForm.controls['totalPrice'].errors
+            'ng-invalid ng-dirty': isSubmitted && transactionForm.controls['totalPrice'].errors
           }"></p-inputNumber>
         <small
           *ngIf="isSubmitted && transactionForm.controls['totalPrice'].errors"
@@ -233,15 +206,8 @@
         <p class="text-sm mb-2">Status</p>
         <div class="formgrid grid grid-cols-3 gap-x-2">
           <div class="flex items-center">
-            <p-radioButton
-              formControlName="status"
-              id="status1"
-              name="status"
-              value="NEW"
-              class="mr-2"></p-radioButton>
-            <label
-              for="status1"
-              class="rounded-lg drop-shadow-md bg-blue-600 text-white text-xs py-1 px-2">
+            <p-radioButton formControlName="status" id="status1" name="status" value="NEW" class="mr-2"></p-radioButton>
+            <label for="status1" class="rounded-lg drop-shadow-md bg-blue-600 text-white text-xs py-1 px-2">
               NEW
             </label>
           </div>
@@ -252,9 +218,7 @@
               name="status"
               value="DONE"
               class="mr-2"></p-radioButton>
-            <label
-              for="status2"
-              class="rounded-lg drop-shadow-md bg-green-600 text-white text-xs py-1 px-2">
+            <label for="status2" class="rounded-lg drop-shadow-md bg-green-600 text-white text-xs py-1 px-2">
               DONE
             </label>
           </div>
@@ -265,9 +229,7 @@
               name="status"
               value="INVALID"
               class="mr-2"></p-radioButton>
-            <label
-              for="status3"
-              class="rounded-lg drop-shadow-md bg-red-500 text-white text-xs py-1 px-2">
+            <label for="status3" class="rounded-lg drop-shadow-md bg-red-500 text-white text-xs py-1 px-2">
               INVALID
             </label>
           </div>
@@ -285,13 +247,9 @@
           placeholder="Notes"
           class="p-inputtext-sm w-full"
           [ngClass]="{
-            'ng-invalid ng-dirty':
-              isSubmitted && transactionForm.controls['notes'].errors
+            'ng-invalid ng-dirty': isSubmitted && transactionForm.controls['notes'].errors
           }"></textarea>
-        <small
-          *ngIf="isSubmitted && transactionForm.controls['notes'].errors"
-          id="notes"
-          class="p-error block mt-2">
+        <small *ngIf="isSubmitted && transactionForm.controls['notes'].errors" id="notes" class="p-error block mt-2">
           Notes is required!
         </small>
       </div>
