@@ -1,9 +1,7 @@
 <div class="navbar-breadcrumb border-b bg-white drop-shadow-md px-5 py-2">
   <div class="flex flex-wrap items-center">
     <div class="grow">
-      <p-breadcrumb
-        [home]="breadcrumbHome"
-        [model]="breadcrumbItems"></p-breadcrumb>
+      <p-breadcrumb [home]="breadcrumbHome" [model]="breadcrumbItems"></p-breadcrumb>
     </div>
     <div class="flex-none">
       <p-overlayPanel #op>
@@ -15,7 +13,8 @@
                 type="button"
                 label="Profile"
                 icon="pi pi-user"
-                class="p-button-text p-button-sm text-left w-full"></button>
+                class="p-button-text p-button-sm text-left w-full"
+                (click)="onToggleProfileModal()"></button>
             </div>
             <div>
               <button
@@ -29,17 +28,66 @@
           </div>
         </ng-template>
       </p-overlayPanel>
-      <button
-        class="p-0 transition duration-150 ease-in-out"
-        (click)="op.toggle($event)">
+      <button class="p-0 transition duration-150 ease-in-out" (click)="op.toggle($event)">
         <div class="flex items-center">
-          <p-avatar
-            [label]="getCredential().initialName"
-            shape="circle"
-            class="mr-3"></p-avatar>
+          <p-avatar [label]="getCredential().initialName" shape="circle" class="mr-3"></p-avatar>
           <h6>{{ getCredential().name }}</h6>
         </div>
       </button>
     </div>
   </div>
 </div>
+
+<p-dialog
+  header="Profile"
+  position="top"
+  [(visible)]="isProfileVisible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '35vw' }">
+  <div class="relative">
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <p class="text-sm text-gray-500">Admin ID</p>
+        <p class="text-sm mt-1">{{ selectedAdmin?.id ?? '-' }}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Username</p>
+        <p class="text-sm mt-1">{{ selectedAdmin?.username ?? '-' }}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Email</p>
+        <p class="text-sm mt-1">{{ selectedAdmin?.email ?? '-' }}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Phone</p>
+        <p class="text-sm mt-1">{{ selectedAdmin?.phone ?? '-' }}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">ID Card</p>
+        <p class="text-sm mt-1">{{ selectedAdmin?.idCard ?? '-' }}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Name</p>
+        <p class="text-sm mt-1">{{ selectedAdmin?.name ?? '-' }}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Address</p>
+        <p class="text-sm mt-1">{{ selectedAdmin?.address ?? '-' }}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Join Date</p>
+        <p class="text-sm mt-1">{{ selectedAdmin?.created_at ?? null | date: 'medium' }}</p>
+      </div>
+    </div>
+    <div
+      *ngIf="isAdminLoading"
+      class="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-gray-500 bg-opacity-5">
+      <p-progressSpinner
+        [style]="{ width: '50px', height: '50px' }"
+        strokeWidth="5"
+        animationDuration=".5s"></p-progressSpinner>
+    </div>
+  </div>
+</p-dialog>

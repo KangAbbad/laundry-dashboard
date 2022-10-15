@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 
 import { SessionService } from 'src/app/services/session/session.service';
+import { AdminsService } from 'src/app/services/admins/admins.service';
+import { IAdmin } from 'src/app/models/IAdmin';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-navbar-component',
@@ -11,22 +14,47 @@ import { SessionService } from 'src/app/services/session/session.service';
   styleUrls: ['./navbar.component.scss'],
   providers: [],
 })
-export class NavbarComponent implements OnInit, DoCheck {
+export class NavbarComponent implements OnInit {
+  private ngUnsubscribe: Subject<any> = new Subject();
   breadcrumbHome!: MenuItem;
   breadcrumbItems: MenuItem[] = [];
+  selectedAdmin: IAdmin | undefined;
+  isAdminLoading: boolean = false;
+  isProfileVisible: boolean = false;
 
   constructor(
     private title: Title,
     private router: Router,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private adminsService: AdminsService
   ) {}
 
   ngOnInit(): void {
     this.breadcrumbHome = { label: 'Dashboard', routerLink: '/dashboard' };
+    this.breadcrumbItems = [{ label: this.title.getTitle(), disabled: true }];
   }
 
-  ngDoCheck(): void {
-    this.breadcrumbItems = [{ label: this.title.getTitle(), disabled: true }];
+  onToggleProfileModal(): void {
+    const adminInfo = localStorage.getItem('admin_info') ?? null;
+
+    if (!adminInfo) return;
+
+    this.isProfileVisible = !this.isProfileVisible;
+
+    if (this.isProfileVisible) {
+      const parseAdminInfo = JSON.parse(adminInfo) as IAdmin;
+
+      this.isAdminLoading = true;
+
+      this.adminsService
+        .httpGetAdminDetail(parseAdminInfo.id)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
+          const { id_card: idCard, ...rest } = res.data;
+          this.selectedAdmin = { ...rest, idCard };
+          this.isAdminLoading = false;
+        });
+    }
   }
 
   getCredential(): { initialName: string; name: string } {

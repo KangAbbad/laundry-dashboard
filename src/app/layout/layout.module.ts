@@ -8,6 +8,8 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { SidebarComponent } from './dashboard-layout/components/sidebar/sidebar.component';
@@ -15,12 +17,7 @@ import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { NavbarComponent } from './dashboard-layout/components/navbar/navbar.component';
 
 @NgModule({
-  declarations: [
-    DashboardLayoutComponent,
-    AuthLayoutComponent,
-    SidebarComponent,
-    NavbarComponent,
-  ],
+  declarations: [DashboardLayoutComponent, AuthLayoutComponent, SidebarComponent, NavbarComponent],
   imports: [
     BrowserModule,
     RouterModule,
@@ -31,6 +28,8 @@ import { NavbarComponent } from './dashboard-layout/components/navbar/navbar.com
     MegaMenuModule,
     OverlayPanelModule,
     ButtonModule,
+    DialogModule,
+    ProgressSpinnerModule,
   ],
   exports: [DashboardLayoutComponent, AuthLayoutComponent],
 })
