@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Nunito';
-  src: url('~/assets/fonts/ExtraBold/Nunito-ExtraBold.woff2') format('woff2'),
-      url('~/assets/fonts/ExtraBold/Nunito-ExtraBold.woff') format('woff');
+  src: url('../../fonts/ExtraBold/Nunito-ExtraBold.woff2') format('woff2'),
+      url('../../fonts/ExtraBold/Nunito-ExtraBold.woff') format('woff');
   font-weight: 800;
   font-style: normal;
   font-display: swap;
@@ -9,8 +9,8 @@
 
 @font-face {
   font-family: 'Nunito';
-  src: url('~/assets/fonts/Black/Nunito-Black.woff2') format('woff2'),
-      url('~/assets/fonts/Black/Nunito-Black.woff') format('woff');
+  src: url('../../fonts/Black/Nunito-Black.woff2') format('woff2'),
+      url('../../fonts/Black/Nunito-Black.woff') format('woff');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -18,8 +18,8 @@
 
 @font-face {
   font-family: 'Nunito';
-  src: url('~/assets/fonts/Bold/Nunito-Bold.woff2') format('woff2'),
-      url('~/assets/fonts/Bold/Nunito-Bold.woff') format('woff');
+  src: url('../../fonts/Bold/Nunito-Bold.woff2') format('woff2'),
+      url('../../fonts/Bold/Nunito-Bold.woff') format('woff');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -27,8 +27,8 @@
 
 @font-face {
   font-family: 'Nunito';
-  src: url('~/assets/fonts/ExtraLight/Nunito-ExtraLight.woff2') format('woff2'),
-      url('~/assets/fonts/ExtraLight/Nunito-ExtraLight.woff') format('woff');
+  src: url('../../fonts/ExtraLight/Nunito-ExtraLight.woff2') format('woff2'),
+      url('../../fonts/ExtraLight/Nunito-ExtraLight.woff') format('woff');
   font-weight: 200;
   font-style: normal;
   font-display: swap;
@@ -36,8 +36,8 @@
 
 @font-face {
   font-family: 'Nunito';
-  src: url('~/assets/fonts/Medium/Nunito-Medium.woff2') format('woff2'),
-      url('~/assets/fonts/Medium/Nunito-Medium.woff') format('woff');
+  src: url('../../fonts/Medium/Nunito-Medium.woff2') format('woff2'),
+      url('../../fonts/Medium/Nunito-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -45,8 +45,8 @@
 
 @font-face {
   font-family: 'Nunito';
-  src: url('~/assets/fonts/Light/Nunito-Light.woff2') format('woff2'),
-      url('~/assets/fonts/Light/Nunito-Light.woff') format('woff');
+  src: url('../../fonts/Light/Nunito-Light.woff2') format('woff2'),
+      url('../../fonts/Light/Nunito-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -54,8 +54,8 @@
 
 @font-face {
   font-family: 'Nunito';
-  src: url('~/assets/fonts/Regular/Nunito-Regular.woff2') format('woff2'),
-      url('~/assets/fonts/Regular/Nunito-Regular.woff') format('woff');
+  src: url('../../fonts/Regular/Nunito-Regular.woff2') format('woff2'),
+      url('../../fonts/Regular/Nunito-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -63,9 +63,17 @@
 
 @font-face {
   font-family: 'Nunito';
-  src: url('~/assets/fonts/SemiBold/Nunito-SemiBold.woff2') format('woff2'),
-      url('~/assets/fonts/SemiBold/Nunito-SemiBold.woff') format('woff');
+  src: url('../../fonts/SemiBold/Nunito-SemiBold.woff2') format('woff2'),
+      url('../../fonts/SemiBold/Nunito-SemiBold.woff') format('woff');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
+}
+
+:root {
+  --font-family: Nunito, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji !important;
+}
+
+* {
+  font-family: var(--font-family);
 }
