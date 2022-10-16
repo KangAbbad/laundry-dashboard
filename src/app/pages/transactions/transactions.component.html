@@ -33,7 +33,7 @@
         </th> -->
         <th class="text-sm">ID</th>
         <th class="text-sm">Admin ID</th>
-        <th class="text-sm">Date</th>
+        <th class="text-sm">Date/Time</th>
         <th class="text-sm">Weight (kg)</th>
         <th class="text-sm">Total Price</th>
         <th class="text-sm">Notes</th>
@@ -66,7 +66,7 @@
           {{ transaction.admin_id }}
         </td>
         <td class="text-sm">
-          {{ transaction.created_at | date: 'EEEE, dd LLLL yyyy' }}
+          {{ transaction.created_at | date: 'dd LLL yyyy hh:mm:ss' }}
         </td>
         <td class="text-sm">
           {{ transaction.weight }}
