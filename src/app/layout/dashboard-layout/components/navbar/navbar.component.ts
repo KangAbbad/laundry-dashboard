@@ -62,6 +62,9 @@ export class NavbarComponent implements OnInit, DoCheck {
 
   getCredential(): { initialName: string; name: string } {
     const currentSession = this.sessionService.getSession();
+
+    if (!currentSession) return { initialName: '', name: '' };
+
     const credentialData = {
       initialName: currentSession.name.charAt(0).toUpperCase(),
       name: currentSession.name,

@@ -1,4 +1,4 @@
-export interface ITransaction {
+export interface ITransactionResponse {
   id: number;
   admin_id: number;
   weight: number;

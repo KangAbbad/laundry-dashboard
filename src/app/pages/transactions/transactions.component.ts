@@ -7,7 +7,7 @@ import { Paginator } from 'primeng/paginator';
 import { saveAs } from 'file-saver-es';
 
 import { TransactionsService } from 'src/app/services/transactions/transactions.service';
-import { ITransaction, ITransactionRequest } from 'src/app/models/ITransaction';
+import { ITransactionResponse, ITransactionRequest } from 'src/app/models/ITransaction';
 import { IAdmin } from 'src/app/models/IAdmin';
 import { AdminsService } from 'src/app/services/admins/admins.service';
 
@@ -28,10 +28,10 @@ export class TransactionsComponent implements OnInit {
     status: new FormControl('NEW', Validators.required),
   });
   isTransactionVisible: boolean = false;
-  transactions: ITransaction[] = [];
-  selectedTransaction: ITransaction | undefined;
+  transactions: ITransactionResponse[] = [];
+  selectedTransaction: ITransactionResponse | undefined;
   selectedTransactionId: number | undefined;
-  selectedTransactions: ITransaction[] = [];
+  selectedTransactions: ITransactionResponse[] = [];
   admins: IAdmin[] = [];
   selectedAdmin: IAdmin | undefined;
   isSubmitted: boolean = false;
@@ -150,7 +150,7 @@ export class TransactionsComponent implements OnInit {
     });
   }
 
-  onEditPreview(transaction: ITransaction): void {
+  onEditPreview(transaction: ITransactionResponse): void {
     this.selectedTransactionId = transaction.id;
     this.isAdminLoading = true;
 
