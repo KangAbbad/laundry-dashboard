@@ -12,16 +12,11 @@ import { LayoutModule } from './layout/layout.module';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { AdminsService } from './services/admins/admins.service';
 import { HttpInterceptorInterceptor } from './core/interceptor/http-interceptor.interceptor';
+import { StompService } from './services/stomp/stomp.service';
 
 @NgModule({
   declarations: [AppComponent, ErrorPageComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    LayoutModule,
-  ],
+  imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, AppRoutingModule, LayoutModule],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     {
@@ -32,6 +27,7 @@ import { HttpInterceptorInterceptor } from './core/interceptor/http-interceptor.
     AuthService,
     SessionService,
     AdminsService,
+    StompService,
   ],
   bootstrap: [AppComponent],
 })

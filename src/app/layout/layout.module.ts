@@ -15,6 +15,7 @@ import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.co
 import { SidebarComponent } from './dashboard-layout/components/sidebar/sidebar.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { NavbarComponent } from './dashboard-layout/components/navbar/navbar.component';
+import { StompService } from '../services/stomp/stomp.service';
 
 @NgModule({
   declarations: [DashboardLayoutComponent, AuthLayoutComponent, SidebarComponent, NavbarComponent],
@@ -31,6 +32,7 @@ import { NavbarComponent } from './dashboard-layout/components/navbar/navbar.com
     DialogModule,
     ProgressSpinnerModule,
   ],
+  providers: [StompService],
   exports: [DashboardLayoutComponent, AuthLayoutComponent],
 })
 export class LayoutModule {}
