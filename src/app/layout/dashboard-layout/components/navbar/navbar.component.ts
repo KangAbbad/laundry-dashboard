@@ -6,7 +6,7 @@ import { MenuItem } from 'primeng/api';
 import { SessionService } from 'src/app/services/session/session.service';
 import { AdminsService } from 'src/app/services/admins/admins.service';
 import { IAdmin } from 'src/app/models/IAdmin';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-navbar-component',
@@ -14,7 +14,7 @@ import { Subject, Subscription, takeUntil } from 'rxjs';
   styleUrls: ['./navbar.component.scss'],
   providers: [],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, DoCheck {
   private ngUnsubscribe: Subject<any> = new Subject();
   breadcrumbHome!: MenuItem;
   breadcrumbItems: MenuItem[] = [];
@@ -31,6 +31,9 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadcrumbHome = { label: 'Dashboard', routerLink: '/dashboard' };
+  }
+
+  ngDoCheck(): void {
     this.breadcrumbItems = [{ label: this.title.getTitle(), disabled: true }];
   }
 
