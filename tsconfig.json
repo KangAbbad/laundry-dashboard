@@ -22,6 +22,11 @@
       "es2020",
       "dom"
     ],
+    "paths": {
+      "file-saver-es": [
+        "@types/file-saver"
+      ]
+    },
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

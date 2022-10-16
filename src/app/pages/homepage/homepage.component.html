@@ -1,3 +1,68 @@
-<div class="container mx-auto">
-  <h1 class="text-3xl font-bold underline">Homepage Works!</h1>
+<div class="container p-5">
+  <div class="grid grid-cols-3 gap-4">
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="p-5 pb-0">
+          <h1 class="text-lg">Today Revenue</h1>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <h2 class="text-2xl font-semibold text-indigo-600">
+          {{ todayRevenue | currency: 'IDR' }}
+        </h2>
+      </ng-template>
+    </p-card>
+  </div>
+
+  <p-table
+    #dt
+    dataKey="id"
+    responsiveLayout="scroll"
+    styleClass="mt-5"
+    [value]="dailyRevenue"
+    [rows]="perPage"
+    [rowHover]="!isDailyRevenueLoading"
+    [rowsPerPageOptions]="[5, 10, 25, 50, 100]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-sm">ID</th>
+        <th class="text-sm">Admin ID</th>
+        <th class="text-sm">Date</th>
+        <th class="text-sm">Total Revenue</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-transaction>
+      <tr *ngIf="isDailyRevenueLoading">
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+        <td><p-skeleton></p-skeleton></td>
+      </tr>
+
+      <tr *ngIf="!isDailyRevenueLoading">
+        <td class="text-sm">
+          {{ transaction.id }}
+        </td>
+        <td class="text-sm">
+          {{ transaction.admin_id }}
+        </td>
+        <td class="text-sm">
+          {{ transaction.created_at | date: 'EEEE, dd LLLL yyyy' }}
+        </td>
+        <td class="text-sm">
+          {{ transaction.total_revenue | currency: 'IDR' }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-paginator
+    #paginator
+    class="custom-pagination"
+    styleClass="mt-4"
+    [first]="firstPaginator"
+    [rows]="perPage"
+    [totalRecords]="totalData"
+    [rowsPerPageOptions]="[5, 10, 25, 50, 100]"
+    (onPageChange)="onChangePage($event)"></p-paginator>
 </div>

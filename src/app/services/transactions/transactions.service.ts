@@ -17,9 +17,7 @@ export class TransactionsService {
     return this.http.post(this.url, body);
   }
 
-  httpGetTransactions(params?: {
-    [key: string]: string | number;
-  }): Observable<any> {
+  httpGetTransactions(params?: { [key: string]: string | number }): Observable<any> {
     return this.http.get(this.url, { params });
   }
 
@@ -33,10 +31,7 @@ export class TransactionsService {
     });
   }
 
-  httpUpdateTransaction(
-    id: number,
-    body: ITransactionRequest
-  ): Observable<any> {
+  httpUpdateTransaction(id: number, body: ITransactionRequest): Observable<any> {
     return this.http.put(`${this.url}/${id}`, body);
   }
 

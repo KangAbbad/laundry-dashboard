@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of, Subject, switchMap, takeUntil } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
-import { saveAs } from 'file-saver';
+import { saveAs } from 'file-saver-es';
 
 import { TransactionsService } from 'src/app/services/transactions/transactions.service';
 import { ITransaction, ITransactionRequest } from 'src/app/models/ITransaction';

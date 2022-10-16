@@ -1,7 +1,5 @@
 <p-toast></p-toast>
-<p-confirmDialog
-  [baseZIndex]="3"
-  styleClass="md:max-w-[30vw]"></p-confirmDialog>
+<p-confirmDialog [baseZIndex]="3" styleClass="md:max-w-[30vw]"></p-confirmDialog>
 
 <div class="container p-5">
   <div class="flex mb-5">
@@ -14,18 +12,9 @@
         (click)="onAddPreview()"></button>
     </div>
     <div *ngIf="false" class="mr-auto">
-      <button
-        pButton
-        label="Bulk Delete"
-        icon="pi pi-trash"
-        class="p-button-danger p-button-sm"></button>
+      <button pButton label="Bulk Delete" icon="pi pi-trash" class="p-button-danger p-button-sm"></button>
     </div>
-    <button
-      pButton
-      label="Export"
-      icon="pi pi-upload"
-      class="p-button-help p-button-sm"
-      (click)="onExport()"></button>
+    <button pButton label="Export" icon="pi pi-upload" class="p-button-help p-button-sm" (click)="onExport()"></button>
   </div>
 
   <p-table
@@ -128,10 +117,7 @@
     [closable]="!isSubmitLoading"
     [style]="{ width: '35vw' }"
     (onHide)="onHideAdminModal()">
-    <form
-      [formGroup]="adminForm"
-      style="padding-top: 1px"
-      (ngSubmit)="onSubmit()">
+    <form [formGroup]="adminForm" style="padding-top: 1px" (ngSubmit)="onSubmit()">
       <div class="field">
         <p class="text-sm mb-2">Username</p>
         <input
@@ -141,15 +127,11 @@
           pInputText
           placeholder="Username"
           [ngClass]="{
-            'ng-invalid ng-dirty':
-              isSubmitted && adminForm.controls['username'].errors
+            'ng-invalid ng-dirty': isSubmitted && adminForm.controls['username'].errors
           }"
           class="p-inputtext-sm w-full"
           aria-label="username" />
-        <small
-          *ngIf="isSubmitted && adminForm.controls['username'].errors"
-          id="username"
-          class="p-error block mt-2">
+        <small *ngIf="isSubmitted && adminForm.controls['username'].errors" id="username" class="p-error block mt-2">
           Username is required!
         </small>
       </div>
@@ -163,15 +145,11 @@
           pInputText
           placeholder="Email"
           [ngClass]="{
-            'ng-invalid ng-dirty':
-              isSubmitted && adminForm.controls['email'].errors
+            'ng-invalid ng-dirty': isSubmitted && adminForm.controls['email'].errors
           }"
           class="p-inputtext-sm w-full"
           aria-label="email" />
-        <small
-          *ngIf="isSubmitted && adminForm.controls['email'].errors"
-          id="email"
-          class="p-error block mt-2">
+        <small *ngIf="isSubmitted && adminForm.controls['email'].errors" id="email" class="p-error block mt-2">
           Email is required!
         </small>
       </div>
@@ -185,15 +163,11 @@
           pInputText
           placeholder="Phone"
           [ngClass]="{
-            'ng-invalid ng-dirty':
-              isSubmitted && adminForm.controls['phone'].errors
+            'ng-invalid ng-dirty': isSubmitted && adminForm.controls['phone'].errors
           }"
           class="p-inputtext-sm w-full"
           aria-label="phone" />
-        <small
-          *ngIf="isSubmitted && adminForm.controls['phone'].errors"
-          id="phone"
-          class="p-error block mt-2">
+        <small *ngIf="isSubmitted && adminForm.controls['phone'].errors" id="phone" class="p-error block mt-2">
           Phone is required!
         </small>
       </div>
@@ -207,15 +181,11 @@
           pInputText
           placeholder="Name"
           [ngClass]="{
-            'ng-invalid ng-dirty':
-              isSubmitted && adminForm.controls['name'].errors
+            'ng-invalid ng-dirty': isSubmitted && adminForm.controls['name'].errors
           }"
           class="p-inputtext-sm w-full"
           aria-label="name" />
-        <small
-          *ngIf="isSubmitted && adminForm.controls['name'].errors"
-          id="name"
-          class="p-error block mt-2">
+        <small *ngIf="isSubmitted && adminForm.controls['name'].errors" id="name" class="p-error block mt-2">
           Name is required!
         </small>
       </div>
@@ -229,15 +199,11 @@
           pInputText
           placeholder="ID Card"
           [ngClass]="{
-            'ng-invalid ng-dirty':
-              isSubmitted && adminForm.controls['idCard'].errors
+            'ng-invalid ng-dirty': isSubmitted && adminForm.controls['idCard'].errors
           }"
           class="p-inputtext-sm w-full"
           aria-label="idCard" />
-        <small
-          *ngIf="isSubmitted && adminForm.controls['idCard'].errors"
-          id="idCard"
-          class="p-error block mt-2">
+        <small *ngIf="isSubmitted && adminForm.controls['idCard'].errors" id="idCard" class="p-error block mt-2">
           ID Card is required!
         </small>
       </div>
@@ -253,13 +219,9 @@
           placeholder="Address"
           class="p-inputtext-sm w-full"
           [ngClass]="{
-            'ng-invalid ng-dirty':
-              isSubmitted && adminForm.controls['address'].errors
+            'ng-invalid ng-dirty': isSubmitted && adminForm.controls['address'].errors
           }"></textarea>
-        <small
-          *ngIf="isSubmitted && adminForm.controls['address'].errors"
-          id="address"
-          class="p-error block mt-2">
+        <small *ngIf="isSubmitted && adminForm.controls['address'].errors" id="address" class="p-error block mt-2">
           Address is required!
         </small>
       </div>
@@ -273,15 +235,11 @@
           pInputText
           placeholder="Password"
           [ngClass]="{
-            'ng-invalid ng-dirty':
-              isSubmitted && adminForm.controls['password'].errors
+            'ng-invalid ng-dirty': isSubmitted && adminForm.controls['password'].errors
           }"
           class="p-inputtext-sm w-full"
           aria-label="password" />
-        <small
-          *ngIf="isSubmitted && adminForm.controls['password'].errors"
-          id="password"
-          class="p-error block mt-2">
+        <small *ngIf="isSubmitted && adminForm.controls['password'].errors" id="password" class="p-error block mt-2">
           Password is required!
         </small>
       </div>

@@ -21,8 +21,7 @@
                   pInputText
                   placeholder="Username / Email"
                   [ngClass]="{
-                    'ng-invalid ng-dirty':
-                      isSubmitted && loginForm.controls['username'].errors
+                    'ng-invalid ng-dirty': isSubmitted && loginForm.controls['username'].errors
                   }"
                   class="p-inputtext-sm w-full"
                   aria-label="username" />
@@ -43,8 +42,7 @@
                   pInputText
                   placeholder="Password"
                   [ngClass]="{
-                    'ng-invalid ng-dirty':
-                      isSubmitted && loginForm.controls['password'].errors
+                    'ng-invalid ng-dirty': isSubmitted && loginForm.controls['password'].errors
                   }"
                   class="p-inputtext-sm w-full"
                   aria-label="password" />
@@ -71,13 +69,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24">
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"></circle>
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path
                   class="opacity-75"
                   fill="currentColor"
@@ -87,11 +79,7 @@
             </button>
             <p class="text-sm text-center mt-3">
               Don't have an account?
-              <a
-                routerLink="/auth/register"
-                class="text-link text-indigo-500 underline">
-                Sign Up
-              </a>
+              <a routerLink="/auth/register" class="text-link text-indigo-500 underline"> Sign Up </a>
             </p>
           </ng-template>
         </p-card>

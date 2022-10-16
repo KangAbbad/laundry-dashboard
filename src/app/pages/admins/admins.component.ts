@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import * as saveAs from 'file-saver';
+import { saveAs } from 'file-saver-es';
 
 import { AdminsService } from 'src/app/services/admins/admins.service';
 import { IAdmin, IAdminRequest } from 'src/app/models/IAdmin';
@@ -23,10 +18,7 @@ export class AdminsComponent implements OnInit {
   adminForm: FormGroup = new FormGroup({
     username: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[0-9]*$'),
-    ]),
+    phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
     name: new FormControl('', Validators.required),
     idCard: new FormControl('', Validators.required),
     address: new FormControl('', Validators.required),
@@ -77,12 +69,7 @@ export class AdminsComponent implements OnInit {
       });
   }
 
-  onChangePage(pagination: {
-    page: number;
-    first: number;
-    rows: number;
-    pageCount: number;
-  }): void {
+  onChangePage(pagination: { page: number; first: number; rows: number; pageCount: number }): void {
     let queryParams: { page: number; per_page: number; sort?: string } = {
       page: pagination.page + 1,
       per_page: pagination.rows,
@@ -162,8 +149,7 @@ export class AdminsComponent implements OnInit {
     this.selectedAdminId = id;
     this.confirmationService.confirm({
       header: 'Delete Admin',
-      message:
-        'Do you want to delete this admin? Admin will deleted permanently, so be careful',
+      message: 'Do you want to delete this admin? Admin will deleted permanently, so be careful',
       icon: 'pi pi-info-circle',
       defaultFocus: 'none',
       acceptIcon: '',
