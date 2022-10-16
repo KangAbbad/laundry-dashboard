@@ -14,11 +14,13 @@
     </p-card>
   </div>
 
+  <h1 class="text-xl mt-10">Summary Revenue</h1>
+
   <p-table
     #dt
     dataKey="id"
     responsiveLayout="scroll"
-    styleClass="mt-5"
+    styleClass="mt-3"
     [value]="dailyRevenue"
     [rows]="perPage"
     [rowHover]="!isDailyRevenueLoading"
