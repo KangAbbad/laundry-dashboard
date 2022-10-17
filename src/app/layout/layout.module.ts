@@ -10,6 +10,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { SidebarComponent } from './dashboard-layout/components/sidebar/sidebar.component';
@@ -31,8 +33,9 @@ import { StompService } from '../services/stomp/stomp.service';
     ButtonModule,
     DialogModule,
     ProgressSpinnerModule,
+    ToastModule,
   ],
-  providers: [StompService],
+  providers: [StompService, MessageService],
   exports: [DashboardLayoutComponent, AuthLayoutComponent],
 })
 export class LayoutModule {}

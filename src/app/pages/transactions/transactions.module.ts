@@ -41,11 +41,6 @@ import { AdminsService } from 'src/app/services/admins/admins.service';
     SkeletonModule,
   ],
   declarations: [TransactionsComponent],
-  providers: [
-    TransactionsService,
-    AdminsService,
-    MessageService,
-    ConfirmationService,
-  ],
+  providers: [TransactionsService, AdminsService, MessageService, ConfirmationService],
 })
 export class TransactionsModule {}

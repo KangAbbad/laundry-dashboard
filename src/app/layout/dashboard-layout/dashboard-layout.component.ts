@@ -1,12 +1,13 @@
-import { StompService } from './../../services/stomp/stomp.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-// import { concatMap, delay, Observable, of } from 'rxjs';
+import { concatMap, delay, of } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { MessageService } from 'primeng/api';
 
 import { IAdminInfo } from 'src/app/models/IAuth';
 import { SessionService } from 'src/app/services/session/session.service';
 import { environment } from 'src/environments/environment';
+import { StompService } from 'src/app/services/stomp/stomp.service';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -15,39 +16,49 @@ import { environment } from 'src/environments/environment';
 export class DashboardLayoutComponent implements OnInit {
   websocket$: WebSocketSubject<any> | undefined;
 
-  constructor(private sessionService: SessionService, private router: Router, private stompService: StompService) {}
+  constructor(
+    private sessionService: SessionService,
+    private router: Router,
+    private stompService: StompService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
-    // this.startWs();
-    this.stompService.subscribe('/topic/messages', (): any => {
-      console.log('stompService run');
+    // this.onStartWs();
+    this.stompService.subscribe('/topic/messages', (event: any): any => {
+      const wsBody = JSON.parse(event.body);
+      this.onToggleMessageTransaction(wsBody);
     });
   }
 
-  startWs(): void {
+  onStartWs(): void {
     this.websocket$ = webSocket(environment.wsUrl);
-
-    this.websocket$.subscribe({
-      next: msg => console.log('message received: ' + msg),
-      error: err => console.log(err),
-      complete: () => console.log('complete'),
-    });
-
-    // this.websocket$.pipe(concatMap(item => of(item).pipe(delay(1000)))).subscribe((res: any) => {
-    //   console.log('websocket');
-    //   console.log(res);
-    // });
-
-    // this.websocket$ = webSocket({
-    //   url: environment.wsUrl,
-    //   serializer: val => JSON.stringify({ channel: '/topic/messages', val }),
-    // });
+    // this.websocket$ = webSocket('ws://localhost:8080');
 
     // this.websocket$.subscribe({
-    //   next: msg => console.log('message received: ' + msg), // Called whenever there is a message from the server.
-    //   error: err => console.log(err), // Called if at any point WebSocket API signals some kind of error.
-    //   complete: () => console.log('complete'), // Called when connection is closed (for whatever reason).
+    //   next: msg => console.log('message received: ' + msg),
+    //   error: err => console.log(err),
+    //   complete: () => console.log('complete'),
     // });
+
+    this.websocket$.pipe(concatMap(item => of(item).pipe(delay(1000)))).subscribe((res: any) => {
+      console.log('websocket');
+      console.log(res);
+    });
+
+    this.websocket$ = webSocket({
+      url: environment.wsUrl,
+      serializer: val => JSON.stringify({ channel: '', val }),
+    });
+  }
+
+  onToggleMessageTransaction(body: { type: ''; title: ''; description: '' }): void {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Websocket Notification',
+      detail: `${body.title} - ${body.description}`,
+      life: 5000,
+    });
   }
 
   getUserInfo(): IAdminInfo {

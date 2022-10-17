@@ -59,8 +59,8 @@ export class TransactionsComponent implements OnInit {
   ngOnInit(): void {
     let queryParams = {};
     this.activatedRoute.queryParams.subscribe(params => {
-      const page = Number(params['page']);
-      const perPage = Number(params['per_page']);
+      const page = Number(params['page'] ?? 1);
+      const perPage = Number(params['per_page'] ?? 5);
 
       queryParams = {
         page,
@@ -248,11 +248,6 @@ export class TransactionsComponent implements OnInit {
       this.isSubmitLoading = false;
       this.onToggleTransactionModal();
       this.transactionForm.reset();
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Transaction Created!',
-      });
       this.onGetTransactions();
     });
   }

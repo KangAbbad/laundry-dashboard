@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as SockJS from 'sockjs-client';
-import * as Stomp from 'stompjs';
+import { over } from 'stompjs';
 
 @Injectable({ providedIn: 'root' })
 export class StompService {
   socket = new SockJS('http://localhost:8080/chat');
-  stompClient = Stomp.over(this.socket);
+  stompClient = over(this.socket);
 
   subscribe(topic: string, callback: any): void {
     const connected: boolean = this.stompClient.connected;
@@ -20,8 +20,8 @@ export class StompService {
   }
 
   private subscribeToTopic(topic: string, callback: any): void {
-    this.stompClient.subscribe(topic, (): any => {
-      callback();
+    this.stompClient.subscribe(topic, (event: any): any => {
+      callback(event);
     });
   }
 }
